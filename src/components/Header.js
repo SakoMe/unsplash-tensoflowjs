@@ -3,9 +3,10 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthProvider';
 
 export default function Header() {
-  const { isSignedIn, userProfile, handleSignOut, handleSignIn } = useContext(
-    AuthContext
-  );
+  const {
+    state: { isSignedIn, userProfile },
+    actions: { handleSignOut, handleSignIn }
+  } = useContext(AuthContext);
 
   const renderUserProfile = () => {
     if (isSignedIn && userProfile) {
@@ -27,8 +28,8 @@ export default function Header() {
   return (
     <header>
       <h1>Header</h1>
-      {renderUserProfile()}
       {renderAuthButton()}
+      {renderUserProfile()}
     </header>
   );
 }

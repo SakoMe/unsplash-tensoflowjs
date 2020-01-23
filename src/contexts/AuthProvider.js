@@ -1,19 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 
 export const AuthContext = React.createContext();
 
+const initialState = {
+  isSignedIn: false,
+  auth: null,
+  userProfile: null
+};
+
+function authReducer(state, action) {
+  switch (action.type) {
+    case 'auth': {
+      return {
+        ...state,
+        auth: window.gapi.auth2.getAuthInstance()
+      };
+    }
+    case 'isSignedIn': {
+      return {
+        ...state,
+        isSignedIn: window.gapi.auth2.getAuthInstance().isSignedIn.get()
+      };
+    }
+    case 'setUserProfile': {
+      return {
+        ...state,
+        userProfile: state.auth.currentUser.get().getBasicProfile()
+      };
+    }
+    default:
+      throw new Error();
+  }
+}
+
 export default function AuthProvider({ children }) {
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [auth, setAuth] = useState(null);
-  const [userProfile, setUserProfile] = useState(null);
+  const [state, dispatch] = useReducer(authReducer, initialState);
 
   const handleAuthChange = () => {
-    setIsSignedIn(window.gapi.auth2.getAuthInstance().isSignedIn.get());
+    dispatch({ type: 'isSignedIn' });
   };
 
-  const handleSignIn = () => auth.signIn();
+  const handleSignIn = () => state.auth.signIn();
 
-  const handleSignOut = () => auth.signOut();
+  const handleSignOut = () => state.auth.signOut();
 
   useEffect(() => {
     window.gapi.load('client:auth2', () => {
@@ -23,7 +52,7 @@ export default function AuthProvider({ children }) {
           scope: 'email'
         })
         .then(() => {
-          setAuth(window.gapi.auth2.getAuthInstance());
+          dispatch({ type: 'auth' });
           handleAuthChange();
           window.gapi.auth2
             .getAuthInstance()
@@ -34,18 +63,19 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     const getUserProfile = () => {
-      auth &&
-        isSignedIn &&
-        setUserProfile(auth.currentUser.get().getBasicProfile());
+      state.auth && state.isSignedIn && dispatch({ type: 'setUserProfile' });
     };
     getUserProfile();
-  }, [isSignedIn, auth]);
+  }, [state.auth, state.isSignedIn]);
 
   const store = {
-    isSignedIn,
-    userProfile,
-    handleSignIn,
-    handleSignOut
+    state: {
+      ...state
+    },
+    actions: {
+      handleSignIn,
+      handleSignOut
+    }
   };
 
   return <AuthContext.Provider value={store}>{children}</AuthContext.Provider>;
