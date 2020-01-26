@@ -3,20 +3,20 @@ import React, { useReducer, useEffect } from 'react';
 export const AuthContext = React.createContext();
 
 const initialState = {
-  isSignedIn: false,
   auth: null,
+  isSignedIn: false,
   userProfile: null
 };
 
 function authReducer(state, action) {
   switch (action.type) {
-    case 'auth': {
+    case 'setAuth': {
       return {
         ...state,
         auth: window.gapi.auth2.getAuthInstance()
       };
     }
-    case 'isSignedIn': {
+    case 'setIsSignedIn': {
       return {
         ...state,
         isSignedIn: window.gapi.auth2.getAuthInstance().isSignedIn.get()
@@ -36,12 +36,8 @@ function authReducer(state, action) {
 export default function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  const handleAuthChange = () => {
-    dispatch({ type: 'isSignedIn' });
-  };
-
+  const handleAuthStateChange = () => dispatch({ type: 'setIsSignedIn' });
   const handleSignIn = () => state.auth.signIn();
-
   const handleSignOut = () => state.auth.signOut();
 
   useEffect(() => {
@@ -52,11 +48,11 @@ export default function AuthProvider({ children }) {
           scope: 'email'
         })
         .then(() => {
-          dispatch({ type: 'auth' });
-          handleAuthChange();
+          dispatch({ type: 'setAuth' });
+          handleAuthStateChange();
           window.gapi.auth2
             .getAuthInstance()
-            .isSignedIn.listen(handleAuthChange);
+            .isSignedIn.listen(handleAuthStateChange);
         });
     });
   }, []);
