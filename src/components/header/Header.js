@@ -6,32 +6,35 @@ import { AuthContext } from '../../contexts/AuthProvider';
 import SearchBar from '../search-bar/SearchBar';
 
 export default function Header() {
-  const {
-    state: { isSignedIn, userProfile },
-    actions: { handleSignOut, handleSignIn }
-  } = useContext(AuthContext);
+  const { authState, authActions } = useContext(AuthContext);
 
   const renderAuthButton = () => {
-    if (isSignedIn)
+    if (authState.isSignedIn)
       return (
-        <button className='Header__button-auth' onClick={handleSignOut}>
+        <button
+          className='Header__button-auth'
+          onClick={authActions.handleSignOut}
+        >
           Sign Out
         </button>
       );
 
     return (
-      <button className='Header__button-auth' onClick={handleSignIn}>
+      <button
+        className='Header__button-auth'
+        onClick={authActions.handleSignIn}
+      >
         Sign in with Google
       </button>
     );
   };
 
   const renderUserProfile = () => {
-    if (isSignedIn && userProfile) {
+    if (authState.isSignedIn && authState.userProfile) {
       return (
         <img
           className='Header__profile-avatar'
-          src={userProfile.getImageUrl()}
+          src={authState.userProfile.getImageUrl()}
           alt='current user avatar'
         />
       );

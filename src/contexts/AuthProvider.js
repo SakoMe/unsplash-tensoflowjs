@@ -65,10 +65,10 @@ export default function AuthProvider({ children }) {
   }, [state.auth, state.isSignedIn]);
 
   const store = {
-    state: {
+    authState: {
       ...state
     },
-    actions: {
+    authActions: {
       handleSignIn,
       handleSignOut
     }

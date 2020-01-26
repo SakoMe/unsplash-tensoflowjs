@@ -1,16 +1,18 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-// import App from '../components/App';
+import { Router, Switch, Route } from 'react-router-dom';
+
+import history from '../history';
+
 import Header from '../components/header/Header';
 import Welcome from '../components/welcome/Welcome';
 
 export default function AppRouter() {
   return (
-    <BrowserRouter>
+    <Router history={history}>
       <Header />
       <Switch>
         <Route exact path='/' component={Welcome} />
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 }
