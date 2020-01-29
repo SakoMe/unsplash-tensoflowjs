@@ -46,7 +46,8 @@ export default function UnsplashProvider({ children }) {
       const response = await unsplash.get('/search/photos', {
         params: {
           query: term,
-          orientation: 'landscape'
+          orientation: 'landscape',
+          per_page: 9
         }
       });
       dispatch({ type: 'FETCH_SUCCESS', payload: response.data.results });

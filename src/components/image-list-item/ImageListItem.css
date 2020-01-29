@@ -1,0 +1,5 @@
+.ImageList__item-img {
+  object-fit: cover;
+  height: 100%;
+  cursor: pointer;
+}

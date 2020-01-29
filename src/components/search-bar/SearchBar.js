@@ -17,7 +17,7 @@ export default function SearchBar() {
     ev.preventDefault();
     unsplashActions.handleSearch(values.searchTerm);
     reset();
-    history.goBack();
+    history.push('/images');
   };
 
   if (authState.isSignedIn) {

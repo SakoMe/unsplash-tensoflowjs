@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
+import history from '../history';
 
 export const AuthContext = React.createContext();
 
@@ -10,22 +11,22 @@ const initialState = {
 
 function authReducer(state, action) {
   switch (action.type) {
-    case 'setAuth': {
+    case 'AUTH_SUCCESS': {
       return {
         ...state,
-        auth: window.gapi.auth2.getAuthInstance()
+        auth: action.payload
       };
     }
-    case 'setIsSignedIn': {
+    case 'SIGN_IN_SUCCESS': {
       return {
         ...state,
-        isSignedIn: window.gapi.auth2.getAuthInstance().isSignedIn.get()
+        isSignedIn: action.payload
       };
     }
-    case 'setUserProfile': {
+    case 'USER_PROFILE_SUCCESS': {
       return {
         ...state,
-        userProfile: state.auth.currentUser.get().getBasicProfile()
+        userProfile: action.payload
       };
     }
     default:
@@ -36,9 +37,16 @@ function authReducer(state, action) {
 export default function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  const handleAuthStateChange = () => dispatch({ type: 'setIsSignedIn' });
+  const handleAuthStateChange = () =>
+    dispatch({
+      type: 'SIGN_IN_SUCCESS',
+      payload: window.gapi.auth2.getAuthInstance().isSignedIn.get()
+    });
   const handleSignIn = () => state.auth.signIn();
-  const handleSignOut = () => state.auth.signOut();
+  const handleSignOut = () => {
+    state.auth.signOut();
+    history.push('/');
+  };
 
   useEffect(() => {
     window.gapi.load('client:auth2', () => {
@@ -48,7 +56,10 @@ export default function AuthProvider({ children }) {
           scope: 'email'
         })
         .then(() => {
-          dispatch({ type: 'setAuth' });
+          dispatch({
+            type: 'AUTH_SUCCESS',
+            payload: window.gapi.auth2.getAuthInstance()
+          });
           handleAuthStateChange();
           window.gapi.auth2
             .getAuthInstance()
@@ -59,7 +70,12 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     const getUserProfile = () => {
-      state.auth && state.isSignedIn && dispatch({ type: 'setUserProfile' });
+      state.auth &&
+        state.isSignedIn &&
+        dispatch({
+          type: 'USER_PROFILE_SUCCESS',
+          payload: state.auth.currentUser.get().getBasicProfile()
+        });
     };
     getUserProfile();
   }, [state.auth, state.isSignedIn]);
