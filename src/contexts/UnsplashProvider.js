@@ -1,11 +1,13 @@
 import React, { useReducer } from 'react';
 
 import unsplash from '../apis/unsplash';
+import history from '../history';
 
 export const UnsplashContext = React.createContext();
 
 const initialState = {
   images: [],
+  image: null,
   isLoading: false,
   error: null
 };
@@ -18,18 +20,25 @@ function unsplashReducer(state, action) {
         isLoading: true
       };
     }
-    case 'FETCH_SUCCESS': {
+    case 'FETCH_ERROR': {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      };
+    }
+    case 'SEARCH_IMAGES': {
       return {
         ...state,
         isLoading: false,
         images: action.payload
       };
     }
-    case 'FETCH_ERROR': {
+    case 'FETCH_SINGLE_IMAGE': {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        image: action.payload
       };
     }
     default:
@@ -47,13 +56,24 @@ export default function UnsplashProvider({ children }) {
         params: {
           query: term,
           orientation: 'landscape',
-          per_page: 9
+          per_page: 6
         }
       });
-      dispatch({ type: 'FETCH_SUCCESS', payload: response.data.results });
+      dispatch({ type: 'SEARCH_IMAGES', payload: response.data.results });
     } catch (error) {
       dispatch({ type: 'FETCH_ERROR', payload: error.message });
     }
+  };
+
+  const getSingleImage = async id => {
+    try {
+      dispatch({ type: 'IS_LOADING' });
+      const response = await unsplash.get(`/photos/${id}`);
+      dispatch({ type: 'FETCH_SINGLE_IMAGE', payload: response.data });
+    } catch (error) {
+      dispatch({ type: 'FETCH_ERROR', payload: error.message });
+    }
+    history.push(`/images/${id}`);
   };
 
   const store = {
@@ -61,7 +81,8 @@ export default function UnsplashProvider({ children }) {
       ...state
     },
     unsplashActions: {
-      handleSearch
+      handleSearch,
+      getSingleImage
     }
   };
 

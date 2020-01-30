@@ -6,6 +6,7 @@ import history from '../history';
 import Header from '../components/header/Header';
 import Welcome from '../components/welcome/Welcome';
 import ImageList from '../components/image-list/ImageList';
+import Image from '../components/image/Image';
 
 export default function AppRouter() {
   return (
@@ -13,7 +14,8 @@ export default function AppRouter() {
       <Header />
       <Switch>
         <Route exact path='/' component={Welcome} />
-        <Route path='/images' component={ImageList} />
+        <Route exact path='/images' component={ImageList} />
+        <Route path='/images/:id' component={Image} />
       </Switch>
     </Router>
   );

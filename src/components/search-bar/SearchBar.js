@@ -4,12 +4,10 @@ import './SearchBar.css';
 
 import history from '../../history';
 
-import { AuthContext } from '../../contexts/AuthProvider';
 import { useForm } from '../../hooks/useForm';
 import { UnsplashContext } from '../../contexts/UnsplashProvider';
 
 export default function SearchBar() {
-  const { authState } = useContext(AuthContext);
   const { unsplashActions } = useContext(UnsplashContext);
   const { values, handleChange, reset } = useForm({ searchTerm: '' });
 
@@ -20,24 +18,21 @@ export default function SearchBar() {
     history.push('/images');
   };
 
-  if (authState.isSignedIn) {
-    return (
-      <form className='Search' onSubmit={handleSubmit}>
-        <input
-          className='Search__input'
-          type='text'
-          name='searchTerm'
-          value={values.searchTerm}
-          onChange={handleChange}
-        />
-        <img
-          className='Search__icon'
-          src={search}
-          alt='search icon'
-          onClick={handleSubmit}
-        />
-      </form>
-    );
-  }
-  return null;
+  return (
+    <form className='Search' onSubmit={handleSubmit}>
+      <input
+        className='Search__input'
+        type='text'
+        name='searchTerm'
+        value={values.searchTerm}
+        onChange={handleChange}
+      />
+      <img
+        className='Search__icon'
+        src={search}
+        alt='search icon'
+        onClick={handleSubmit}
+      />
+    </form>
+  );
 }

@@ -1,0 +1,17 @@
+.Image {
+  padding: 1rem;
+}
+
+.Image__container {
+  display: flex;
+}
+.Image__container-img {
+  max-width: 70%;
+}
+
+.Image__container-description {
+  background: aliceblue;
+  margin-left: 1rem;
+  flex-grow: 1;
+  padding: 1rem;
+}
