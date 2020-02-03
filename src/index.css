@@ -1,8 +1,8 @@
 :root {
   --background-dark: #01000287;
-  --background-light: #2c2e3b;
+  --background-medium: #2c2e3b;
+  --background-light: aliceblue;
   --text-main: #cecece;
-  --background-medium: aliceblue;
 }
 
 * {
@@ -23,6 +23,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 1.6rem;
   line-height: 1.6;
-  background-color: var(--background-light);
+  background-color: var(--background-medium);
   color: var(--text-main);
 }

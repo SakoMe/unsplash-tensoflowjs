@@ -1,0 +1,22 @@
+.NotFound {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100vw;
+  height: calc(100vh -68px);
+}
+
+.NotFound__header {
+  font-size: 3rem;
+  color: var(--text-main);
+}
+.NotFound__link {
+  color: var(--text-main);
+  text-decoration: none;
+}
+
+.NotFound__image {
+  max-width: 50vw;
+}

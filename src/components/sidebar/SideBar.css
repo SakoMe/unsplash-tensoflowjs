@@ -1,0 +1,38 @@
+.SideBar__container {
+  background-color: var(--background-light);
+  color: black;
+  margin-left: 1rem;
+  flex-grow: 1;
+  padding: 1rem;
+}
+
+.SideBar__container-button {
+  all: unset;
+  border-radius: 5rem;
+  padding: 0.5rem 2rem;
+  background-color: var(--background-medium);
+  color: var(--text-main);
+  cursor: pointer;
+  float: right;
+  margin-top: 2rem;
+}
+
+.SideBar__container-hr {
+  border: 2px solid var(--background-medium);
+  border-radius: 5rem;
+  margin-top: 3.7rem;
+}
+
+.SideBar__container-description {
+  margin-bottom: 2rem;
+}
+
+@media only screen and (max-width: 1024px) {
+  .SideBar__container {
+    margin-left: 0;
+    min-height: 55vh;
+  }
+  .SideBar__container-description {
+    margin-left: 0;
+  }
+}

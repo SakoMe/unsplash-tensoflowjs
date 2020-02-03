@@ -4,7 +4,8 @@ import './Image.css';
 
 import { UnsplashContext } from '../../contexts/UnsplashProvider';
 import Loader from '../loader/Loader';
-import { capitalize, roundNumber } from '../../utils';
+
+import SideBar from '../sidebar/SideBar';
 
 export default function Image() {
   const { unsplashState } = useContext(UnsplashContext);
@@ -31,32 +32,11 @@ export default function Image() {
             src={unsplashState.image.urls.regular}
             alt={unsplashState.image.alt_description}
           />
-          <aside className='Image__container-description'>
-            <h1>Photo Description</h1>
-            <h4 className='Image__container-description_h4'>
-              {capitalize(unsplashState.image.alt_description)}
-            </h4>
-            <button className='Image__container-button' onClick={predict}>
-              Run AI
-            </button>
-            <hr className='Image__container-hr' />
-            {predictions.length > 0 && (
-              <div>
-                <h2>TensorFlow</h2>
-                <div>
-                  {predictions.map((prediction, idx) => (
-                    <div key={idx}>
-                      <h5>Prediction: {capitalize(prediction.className)}.</h5>
-                      <h5>
-                        Probablility: {roundNumber(prediction.probability)}
-                      </h5>
-                      <hr />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </aside>
+          <SideBar
+            predictions={predictions}
+            image={unsplashState.image}
+            predict={predict}
+          />
         </div>
       );
     }
