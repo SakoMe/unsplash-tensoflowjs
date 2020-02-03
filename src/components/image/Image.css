@@ -9,6 +9,11 @@
   max-width: 70%;
 }
 
+.Image__default-text {
+  text-align: center;
+  margin-top: 15%;
+}
+
 @media only screen and (max-width: 1024px) {
   .Image__container {
     flex-direction: column;

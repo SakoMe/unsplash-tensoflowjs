@@ -10,3 +10,8 @@
 .Image__container-description {
   color: black;
 }
+
+.ImageList__default-text {
+  text-align: center;
+  margin-top: 15%;
+}

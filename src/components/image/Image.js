@@ -14,7 +14,7 @@ export default function Image() {
 
   const predict = async () => {
     const img = imgRef.current;
-    const model = await mobilenet.load();
+    const model = await mobilenet.load({ version: 2, alpha: 1.0 });
     const predictions = await model.classify(img);
     setPredictions(predictions);
   };
@@ -40,7 +40,7 @@ export default function Image() {
         </div>
       );
     }
-    return <h1 className='Image__default'>Search For Images</h1>;
+    return <h1 className='Image__default-text'>Search For Images...</h1>;
   };
   return <div className='Image'>{renderImage()}</div>;
 }
