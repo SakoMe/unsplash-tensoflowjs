@@ -10,8 +10,41 @@
 }
 
 .Image__container-description {
-  background: aliceblue;
+  background-color: var(--background-medium);
   margin-left: 1rem;
   flex-grow: 1;
   padding: 1rem;
+}
+
+.Image__container-button {
+  all: unset;
+  border-radius: 5rem;
+  padding: 0.5rem 2rem;
+  background-color: var(--background-light);
+  color: var(--background-medium);
+  cursor: pointer;
+  float: right;
+}
+
+.Image__container-hr {
+  border: 2px solid var(--background-light);
+  border-radius: 5rem;
+  margin-top: 3.7rem;
+}
+
+.Image__container-description_h4 {
+  margin-bottom: 2rem;
+}
+
+@media only screen and (max-width: 1024px) {
+  .Image__container {
+    display: flex;
+    flex-direction: column;
+  }
+  .Image__container-img {
+    max-width: 100%;
+  }
+  .Image__container-description {
+    margin-left: 0;
+  }
 }

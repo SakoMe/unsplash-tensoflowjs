@@ -12,3 +12,22 @@
   margin-left: 2rem;
   color: var(--text-main);
 }
+
+@media only screen and (max-width: 770px) {
+  .Header {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .Header__logo {
+    margin-left: 0;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .Header {
+    flex-direction: column;
+  }
+  .Header__logo {
+    margin-left: 0;
+  }
+}

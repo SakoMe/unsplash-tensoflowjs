@@ -4,7 +4,7 @@ import './Image.css';
 
 import { UnsplashContext } from '../../contexts/UnsplashProvider';
 import Loader from '../loader/Loader';
-import { capitalize } from '../../utils';
+import { capitalize, roundNumber } from '../../utils';
 
 export default function Image() {
   const { unsplashState } = useContext(UnsplashContext);
@@ -32,23 +32,25 @@ export default function Image() {
             alt={unsplashState.image.alt_description}
           />
           <aside className='Image__container-description'>
-            <h1>Photo Details - Unsplash</h1>
-            {unsplashState.image.description && (
-              <p>Description: {capitalize(unsplashState.image.description)}</p>
-            )}
-            <p>
-              Alt Description: {capitalize(unsplashState.image.alt_description)}
-            </p>
-            <button onClick={predict}>Run AI</button>
-            <hr />
+            <h1>Photo Description</h1>
+            <h4 className='Image__container-description_h4'>
+              {capitalize(unsplashState.image.alt_description)}
+            </h4>
+            <button className='Image__container-button' onClick={predict}>
+              Run AI
+            </button>
+            <hr className='Image__container-hr' />
             {predictions.length > 0 && (
               <div>
-                <h2>Tensorflow Predictions</h2>
+                <h2>TensorFlow</h2>
                 <div>
                   {predictions.map((prediction, idx) => (
                     <div key={idx}>
-                      <p>Prediction: {capitalize(prediction.className)}.</p>
-                      <p>Probablility: {prediction.probability}</p>
+                      <h5>Prediction: {capitalize(prediction.className)}.</h5>
+                      <h5>
+                        Probablility: {roundNumber(prediction.probability)}
+                      </h5>
+                      <hr />
                     </div>
                   ))}
                 </div>

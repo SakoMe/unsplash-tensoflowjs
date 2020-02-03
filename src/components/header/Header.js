@@ -8,7 +8,7 @@ export default function Header() {
   return (
     <header className='Header'>
       <NavLink className='Header__logo' to='/'>
-        Image AI
+        Image.ai
       </NavLink>
       <SearchBar />
     </header>
